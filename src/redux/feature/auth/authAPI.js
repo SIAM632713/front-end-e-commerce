@@ -69,7 +69,7 @@ const authAPI=createApi({
             query:({id,userdata})=>({
                 url:`/updateprofile/${id}`,
                 method:'POST',
-                body:{userdata},
+                body:userdata,
                 credentials:'include'
             }),
             invalidatesTags: ['User'],
