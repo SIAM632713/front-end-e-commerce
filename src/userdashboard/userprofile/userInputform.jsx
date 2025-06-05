@@ -4,13 +4,15 @@ import {useGetupdateProfileMutation} from "../../redux/feature/auth/authAPI.js";
 import Loading from "../../component/loading/Loading.jsx";
 import axios from "axios";
 import {getBaseURL} from "../../utilis/getBaseURL.js";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {setUser} from "../../redux/feature/auth/authSlice.jsx";
 
 const UserInputform = ({ HandleModalclose, isModalOpen }) => {
     if (!isModalOpen) return null;
 
     const {user}=useSelector((state)=>state.auth)
     const [GetupdateProfile,{error,isLoading}]=useGetupdateProfileMutation()
+    const dispatch = useDispatch();
 
     const [uploading, setUploading] = useState(false);
     const fileInputRef = useRef(null);
@@ -73,8 +75,9 @@ const UserInputform = ({ HandleModalclose, isModalOpen }) => {
                 profileImage: imageUrl,
             };
 
-            await GetupdateProfile({ id: user?._id, userdata }).unwrap();
+            const response=await GetupdateProfile({ id: user?._id, userdata }).unwrap();
             alert("profile updated successfully.");
+            dispatch(setUser(response))
             setinputForm({ Name: "", Image: null, Bio: "", Profession: "" });
             if (fileInputRef.current) fileInputRef.current.value = null;
 
