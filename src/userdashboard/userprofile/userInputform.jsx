@@ -71,12 +71,10 @@ const UserInputform = ({ HandleModalclose, isModalOpen }) => {
                 bio: inputForm.Bio,
                 profession: inputForm.Profession,
                 profileImage: imageUrl,
-                author: user?._id
             };
 
             await GetupdateProfile({ id: user?._id, userdata }).unwrap();
-
-            // Clear form
+            alert("profile updated successfully.");
             setinputForm({ Name: "", Image: null, Bio: "", Profession: "" });
             if (fileInputRef.current) fileInputRef.current.value = null;
 

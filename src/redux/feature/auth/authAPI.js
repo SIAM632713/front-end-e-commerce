@@ -73,10 +73,14 @@ const authAPI=createApi({
                 credentials:'include'
             }),
             invalidatesTags: ['User'],
+        }),
+        GetSingleProfile: builder.query({
+            query: (id) => `/get-singleuser/${id}`,
+            providesTags: (result, error, id) => [{ type: 'User', id }]
         })
     })
 })
 
-export const {useLoginUserMutation,useRegisterUserMutation,useLogoutUserMutation,useGetUserQuery,useGetDeleteUserMutation,useGetUpdateUserMutation,useGetupdateProfileMutation}=authAPI;
+export const {useLoginUserMutation,useRegisterUserMutation,useLogoutUserMutation,useGetUserQuery,useGetDeleteUserMutation,useGetUpdateUserMutation,useGetupdateProfileMutation,useGetSingleProfileQuery}=authAPI;
 
 export default authAPI;
