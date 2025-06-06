@@ -84,6 +84,7 @@ const AddProducts = () => {
 
 
             await AddProduct(newProduct).unwrap();
+            alert("product added successfully.");
             setinputForm({
                 Productname:"",
                 Category:"",

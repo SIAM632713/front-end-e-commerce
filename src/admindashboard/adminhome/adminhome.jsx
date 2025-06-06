@@ -30,7 +30,7 @@ const Adminhome = () => {
                         <DollarSign className="text-blue-500 w-5 h-5"/>
                         <h2 className="text-lg font-semibold text-gray-700">Total Earning</h2>
                     </div>
-                    <p className="text-2xl font-bold text-blue-500">${totalEarning}</p>
+                    <p className="text-2xl font-bold text-blue-500">${totalEarning?.toFixed(2)}</p>
                 </div>
 
                 <div

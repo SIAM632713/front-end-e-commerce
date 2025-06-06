@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import avater from "../../assets/avatar.png";
 import { PanelLeftOpen } from 'lucide-react';
 import UserInputform from "./userInputform.jsx";
 import {useGetSingleProfileQuery} from "../../redux/feature/auth/authAPI.js";
@@ -12,7 +11,6 @@ const UserProfile = () => {
     const {data,error,isLoading} = useGetSingleProfileQuery(user?._id);
 
     const userData=data?.data || {}
-    console.log(userData)
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const HandleModalopen=()=>{

@@ -109,7 +109,7 @@ const Updateproduct = () => {
 
     return (
         <div className=" bg-white rounded-md">
-            <h2 className="text-2xl font-bold mb-8">Add New Product</h2>
+            <h2 className="text-2xl font-bold mb-8">Edit Product</h2>
             <form className="space-y-6">
                 {/* Product Name */}
                 <div>
