@@ -3,6 +3,7 @@ import {useDeleteOrderByIDMutation, useGetAllOrderQuery} from "../../redux/featu
 import Loading from "../../component/loading/Loading.jsx";
 import Orderstatus from "./orderstatus.jsx";
 import {Link} from "react-router-dom";
+import {confirmDelete, showError, showSuccess} from "../../utilis/sweetAlertHelper.js";
 
 
 const statusColors = {
@@ -35,15 +36,19 @@ const Manageorder = () => {
     );
     const orderData= data?.data || []
 
-    const HandledeleteOrder=async(id)=>{
-       try {
-           const response=await DeleteOrderByID(id).unwrap()
-           alert("Successfully deleted")
-           refetch();
-       }catch(error){
-           console.error(error)
-       }
-    }
+    const HandledeleteOrder = async (id) => {
+        const result = await confirmDelete();
+        if (result.isConfirmed) {
+            try {
+                await DeleteOrderByID(id).unwrap();
+                showSuccess("Order deleted successfully!");
+            } catch (error) {
+                console.error(error);
+                showError("Order delete failed!");
+            }
+        }
+    };
+
 
     return (
         <div className="p-6 bg-white shadow rounded-lg">

@@ -2,10 +2,11 @@ import React, {useState} from "react";
 import {useAllProductsQuery, useDeleteProductMutation} from "../../redux/feature/Product/productAPI.js";
 import Loading from "../../component/loading/Loading.jsx";
 import {Link} from "react-router-dom";
+import {confirmDelete, showError, showSuccess} from "../../utilis/sweetAlertHelper.js";
 
 const ManageProduct = () => {
 
-    const {data,error,isLoading}=useAllProductsQuery()
+    const {data,error,isLoading,refetch}=useAllProductsQuery()
     const [DeleteProduct]=useDeleteProductMutation()
 
     const [currentPage,setCurrentPage]=useState(1);
@@ -21,12 +22,16 @@ const ManageProduct = () => {
 
 
     const HandleDeleteProduct=async (id) => {
-        try {
-            const response=await DeleteProduct(id).unwrap()
-            alert("Product Deleted successfully")
-            window.location.reload();
-        }catch(err){
-            console.log(err)
+        const result=await confirmDelete()
+        if(result.isConfirmed){
+            try {
+               await DeleteProduct(id).unwrap()
+               await showSuccess("Product deleted successfully!")
+              await refetch()
+            }catch(err){
+                console.log(err)
+                showError("Failed to delete product")
+            }
         }
     }
 

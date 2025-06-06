@@ -5,6 +5,7 @@ import { Pencil, Trash2 } from 'lucide-react';
 import toast from "react-hot-toast";
 import UserInputstatus from "./UserInputstatus.jsx";
 import {useSelector} from "react-redux";
+import {confirmDelete, showError, showSuccess} from "../../utilis/sweetAlertHelper.js";
 
 const UserManage = () => {
 
@@ -33,13 +34,16 @@ const UserManage = () => {
     const userData=data?.data || []
 
     const HandleDeleteUser = async (id) => {
-        try {
-            await GetDeleteUser(id).unwrap();
-            toast.success("User deleted successfully.");
-            refetch(); // Refetch user list without full page reload
-        } catch (err) {
-            console.log(err);
-            toast.error("Failed to delete user.");
+        const result = await confirmDelete()
+        if(result.isConfirmed){
+            try {
+                await GetDeleteUser(id).unwrap();
+               showSuccess("User deleted successfully.");
+                refetch();
+            } catch (err) {
+                console.log(err);
+               showError("Failed to delete User");
+            }
         }
     };
 
