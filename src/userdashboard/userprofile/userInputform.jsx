@@ -1,18 +1,16 @@
 import React, {useRef, useState} from 'react';
 import { X } from 'lucide-react';
 import {useGetupdateProfileMutation} from "../../redux/feature/auth/authAPI.js";
-import Loading from "../../component/loading/Loading.jsx";
 import axios from "axios";
 import {getBaseURL} from "../../utilis/getBaseURL.js";
-import {useDispatch, useSelector} from "react-redux";
-import {setUser} from "../../redux/feature/auth/authSlice.jsx";
+import { useSelector} from "react-redux";
+import ButtonLoader from "./buttonLoader.jsx";
 
 const UserInputform = ({ HandleModalclose, isModalOpen }) => {
     if (!isModalOpen) return null;
 
     const {user}=useSelector((state)=>state.auth)
     const [GetupdateProfile,{error,isLoading}]=useGetupdateProfileMutation()
-    const dispatch = useDispatch();
 
     const [uploading, setUploading] = useState(false);
     const fileInputRef = useRef(null);
@@ -90,12 +88,6 @@ const UserInputform = ({ HandleModalclose, isModalOpen }) => {
 
 
 
-    if (isLoading || uploading) return (
-        <div className="flex justify-center mt-10">
-            <Loading />
-        </div>
-    );
-
 
     return (
         <div className="fixed inset-0 backdrop-brightness-25 bg-opacity-50 flex items-center justify-center z-50">
@@ -149,9 +141,14 @@ const UserInputform = ({ HandleModalclose, isModalOpen }) => {
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
+                        disabled={isLoading || uploading}
+                        className={`w-full py-2 rounded-md text-white flex justify-center items-center cursor-pointer ${
+                            isLoading || uploading
+                                ? "bg-blue-400 cursor-not-allowed"
+                                : "bg-blue-600 hover:bg-blue-700"
+                        }`}
                     >
-                        Save Changes
+                        {isLoading || uploading ? <ButtonLoader text="Saving..."/> : "Save Changes"}
                     </button>
                 </form>
             </div>

@@ -74,7 +74,7 @@ const Navbar = () => {
 
                 {/* Logo */}
                 <div className="text-3xl font-bold">
-                    <h1>Lebaba</h1>
+                    <h1>Aurellia</h1>
                 </div>
 
                 {/* Icons */}

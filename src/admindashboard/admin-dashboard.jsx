@@ -27,8 +27,8 @@ const AdminDashboard = () => {
                 <div className="p-4 border-b">
                     <Link to="/">
                         <h2 className="text-2xl font-bold">
-                            <span className="text-black">Le</span>
-                            <span className="text-gray-500">baba.</span>
+                            <span className="text-black">Au</span>
+                            <span className="text-gray-500">rellia.</span>
                         </h2>
                     </Link>
                     <i className="text-sm text-gray-500">Admin dashboard</i>

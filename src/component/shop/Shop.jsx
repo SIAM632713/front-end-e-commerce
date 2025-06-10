@@ -24,7 +24,7 @@ const Shop = () => {
     const { category, color, priceRange } = filterState;
     const [minPrice, maxPrice] = priceRange.split('-').map(Number);
 
-    const { data: Productdata = {}, isLoading } = useFetchAllProductsQuery({
+    const { data: Productdata = {}, isLoading,error } = useFetchAllProductsQuery({
         category: category !== 'all' ? category : '',
         color: color !== 'all' ? color : '',
         minPrice: isNaN(minPrice) ? '' : minPrice,

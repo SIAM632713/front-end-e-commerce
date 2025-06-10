@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {useGetDeleteUserMutation, useGetUserQuery} from "../../redux/feature/auth/authAPI.js";
 import Loading from "../../component/loading/Loading.jsx";
 import { Pencil, Trash2 } from 'lucide-react';
-import toast from "react-hot-toast";
 import UserInputstatus from "./UserInputstatus.jsx";
 import {useSelector} from "react-redux";
 import {confirmDelete, showError, showSuccess} from "../../utilis/sweetAlertHelper.js";
