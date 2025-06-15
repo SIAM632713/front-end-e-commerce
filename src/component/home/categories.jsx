@@ -14,19 +14,22 @@ const Categories = () => {
     ];
 
     return (
-        <div>
-            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                    {
-                        categories.map((item, index) => (
-                            <Link to={`/categories/${item.path}`} key={index}>
-                                <div className="space-y-2 flex flex-col items-center text-center">
-                                    <img src={item.img} alt="logo" className="rounded-full w-24 h-24 sm:w-20 sm:h-20 object-cover" />
-                                    <h1 className="font-semibold text-base sm:text-lg">{item.name}</h1>
-                                </div>
-                            </Link>
-                        ))
-                    }
+        <div className="py-8 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-[1400px] mx-auto">
+                <h2 className="text-xl sm:text-2xl font-bold mb-6 text-center">Shop by Category</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 sm:gap-8">
+                    {categories.map((item, index) => (
+                        <Link to={`/categories/${item.path}`} key={index}>
+                            <div className="flex flex-col items-center text-center space-y-2 transition-transform duration-300 hover:scale-105">
+                                <img
+                                    src={item.img}
+                                    alt={item.name}
+                                    className="rounded-full w-20 h-20 sm:w-24 sm:h-24 object-cover shadow-md"
+                                />
+                                <h1 className="text-sm sm:text-base font-medium">{item.name}</h1>
+                            </div>
+                        </Link>
+                    ))}
                 </div>
             </div>
         </div>
