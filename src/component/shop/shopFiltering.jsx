@@ -15,7 +15,7 @@ const Filter={
 
 const ShopFiltering = ({ filterState, setFilterState, clearFilterState }) => {
     return (
-        <div className="p-5 bg-white   w-full md:w-64 space-y-5">
+        <div className="p-5 bg-white w-full md:w-64 space-y-5  md:overflow-y-auto rounded shadow">>
             <h3 className="text-xl font-semibold text-gray-800">Filters</h3>
 
             {/* Category Filter */}
