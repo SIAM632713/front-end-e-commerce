@@ -7,12 +7,22 @@ import ShopFiltering from "./shopFiltering.jsx";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/feature/Cart/cartSlice.js";
+import {getToken} from "../../sessionHelper/sessionHelper.js";
+import toast from "react-hot-toast";
 
 const Shop = () => {
     const dispatch = useDispatch();
 
     const HandleaddToCart = (product) => {
-        dispatch(addToCart(product));
+        if(!getToken()){
+            toast.error("Please Login First")
+            return;
+        }
+        try {
+            dispatch(addToCart(product));
+        }catch (error) {
+
+        }
     };
 
     const [filterState, setFilterState] = useState({
@@ -24,7 +34,7 @@ const Shop = () => {
     const { category, color, priceRange } = filterState;
     const [minPrice, maxPrice] = priceRange.split('-').map(Number);
 
-    const { data: Productdata = {}, isLoading,error } = useFetchAllProductsQuery({
+    const { data: Productdata = {}, isLoading, error } = useFetchAllProductsQuery({
         category: category !== 'all' ? category : '',
         color: color !== 'all' ? color : '',
         minPrice: isNaN(minPrice) ? '' : minPrice,
@@ -67,6 +77,8 @@ const Shop = () => {
         }
     };
 
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
+
     if (isLoading) {
         return (
             <div className="flex justify-center mt-10">
@@ -77,10 +89,24 @@ const Shop = () => {
 
     return (
         <>
+            {/* Toggle Filter Button (Mobile only) */}
+            <div className="md:hidden px-4 mt-6">
+                <button
+                    onClick={() => setIsFilterOpen(!isFilterOpen)}
+                    className="px-4 py-2 bg-pink-500 text-white rounded shadow-md"
+                >
+                    {isFilterOpen ? 'Hide Filters' : 'Show Filters'}
+                </button>
+            </div>
+
             <section>
                 <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row items-start gap-6 mt-10 px-4">
                     {/* Filters */}
-                    <div className="md:w-[250px] w-full">
+                    <div
+                        className={`md:w-[250px] w-full ${
+                            isFilterOpen ? 'block' : 'hidden'
+                        } md:block transition-all duration-300`}
+                    >
                         <ShopFiltering
                             filterState={filterState}
                             setFilterState={setFilterState}

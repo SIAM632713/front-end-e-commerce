@@ -27,7 +27,7 @@ const UserDashboard = () => {
             <div>
                 <div className="pb-4 border-b mb-4">
                     <Link to="/">
-                        <h2 className="text-2xl font-bold mt-10">
+                        <h2 className="text-2xl font-bold">
                             <span className="text-black">Au</span>
                             <span className="text-gray-500">rellia.</span>
                         </h2>

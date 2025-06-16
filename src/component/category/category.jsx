@@ -6,6 +6,8 @@ import StarRatings from "react-star-ratings/build/star-ratings.js";
 import Loading from "../loading/Loading.jsx";
 import {useDispatch} from "react-redux";
 import {addToCart} from "../../redux/feature/Cart/cartSlice.js";
+import {getToken} from "../../sessionHelper/sessionHelper.js";
+import toast from "react-hot-toast";
 
 const Category = () => {
     const {category }=useParams();
@@ -21,8 +23,16 @@ const Category = () => {
 
     const dispatch = useDispatch();
     const HandleaddToCart=(product)=>{
-        dispatch(addToCart(product))
-    }
+        if(!getToken()){
+            toast.error("Please Login First")
+            return;
+        }
+        try {
+            dispatch(addToCart(product));
+        }catch (error) {
+
+        }
+    };
 
     return (
         <div className="py-10 px-4">

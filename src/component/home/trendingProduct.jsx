@@ -6,12 +6,22 @@ import { addToCart } from "../../redux/feature/Cart/cartSlice.js";
 import { useAllProductsQuery } from "../../redux/feature/Product/productAPI.js";
 import Loading from "../loading/Loading.jsx";
 import { Link } from "react-router-dom";
+import {getToken} from "../../sessionHelper/sessionHelper.js";
+import toast from "react-hot-toast";
 
 const TrendingProduct = () => {
     const dispatch = useDispatch();
 
     const handleAddToCart = (product) => {
-        dispatch(addToCart(product));
+        if(!getToken()){
+            toast.error("Please Login First")
+            return;
+        }
+        try {
+            dispatch(addToCart(product));
+        }catch (error) {
+
+        }
     };
 
     const { data, error, isLoading } = useAllProductsQuery();

@@ -6,7 +6,7 @@ import card3 from "../../assets/card-3.png";
 const Trend = () => {
     return (
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-10">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-6">
 
                 {/* Card 1 */}
                 <div className="relative rounded-md overflow-hidden group">

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {Link, NavLink, useNavigate} from 'react-router-dom';
 import { Search, ShoppingBag, User } from 'lucide-react';
 import {useDispatch, useSelector} from 'react-redux';
-import avater from "../../assets/avatar.png";
 import {useLogoutUserMutation} from "../../redux/feature/auth/authAPI.js";
 import {logOutUser} from "../../redux/feature/auth/authSlice.jsx";
 import Cartmodal from "../shop/Cartmodal.jsx";
@@ -13,12 +12,8 @@ const Navbar = () => {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { user } = useSelector((state) => state.auth);
-    const [Isdropdown, setIsdropdown] = useState(false);
     const token=getToken();
 
-    const handletoggle = () => {
-        setIsdropdown(!Isdropdown);
-    };
 
     const [isCartOpen, setIsCartOpen] = useState(false);
     const handleCartOpen = () => {
@@ -27,25 +22,6 @@ const Navbar = () => {
     const handleCartClose = () => {
         setIsCartOpen(false)
     }
-
-
-    const UserdropdownMenu = [
-        { label: "Dashboard", path: "/dashboard/user" },
-        { label: "Order", path: "/dashboard/order" },
-        { label: "Payment", path: "/dashboard/payment" },
-        { label: "Profile", path: "/dashboard/profile" },
-        { label: "Review", path: "/dashboard/review" },
-    ];
-
-    const AdmindropdownMenu = [
-        { label: "Dashboard", path: "/dashboard/admin" },
-        { label: "Add Product", path: "/dashboard/add-product" },
-        { label: "Manage Products", path: "/dashboard/manage-product" },
-        { label: "Users", path: "/dashboard/user-manage" },
-        { label: "Manage Orders", path: "/dashboard/manage-order" },
-    ];
-
-    const DropdownMenu = user?.role === "admin" ? [...AdmindropdownMenu] : [...UserdropdownMenu];
 
 
     const [logoutUser]=useLogoutUserMutation()
@@ -93,37 +69,14 @@ const Navbar = () => {
                     {
                         token ? (
                             <>
-                                <img
-                                    onClick={handletoggle}
-                                    src={user?.profileImage || avater}
-                                    className="size-6 rounded-full cursor-pointer"
-                                />
-                                {Isdropdown && (
-                                    <div
-                                        className="absolute top-full right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50">
-                                        <ul className="py-2">
-                                            {DropdownMenu.map((item, index) => (
-                                                <li key={index}>
-                                                    <Link
-                                                        to={item.path}
-                                                        className="block px-4 py-2 text-gray-700 hover:text-red-500 text-sm font-medium dropdown-items"
-                                                    >
-                                                        {item.label}
-                                                    </Link>
-                                                </li>
-                                            ))}
-                                            <li>
-                                                <Link onClick={handleLogout}
-                                                      className="block px-4 py-2 text-gray-700 hover:text-red-500 text-sm font-medium dropdown-items">Logout</Link>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                )}
+                                <Link to={user?.role === "admin" ? "/dashboard/admin" : "/dashboard/user"}>
+                                    <button className="font-semibold transition cursor-pointer">Dashboard</button>
+                                </Link>
+                                <button onClick={handleLogout} className="font-semibold transition cursor-pointer">Logout</button>
                             </>
                         ) : (
                             <Link to="/login">
-                                <User className="cursor-pointer w-5 h-5"/>
+                                <button className="font-semibold transition cursor-pointer">Login</button>
                             </Link>
                         )
                     }
@@ -157,7 +110,7 @@ const Navbar = () => {
                         <Link to="/page" onClick={() => setIsMenuOpen(false)}>Page</Link>
                         <Link to="/contact" onClick={() => setIsMenuOpen(false)}>Contact</Link>
                     </div>
-                    <div className="flex gap-4 mt-4">
+                    <div className="flex flex-col gap-4 mt-4">
                         <Search className="cursor-pointer"/>
                         <div className="relative cursor-pointer w-fit">
                             <ShoppingBag onClick={handleCartOpen} className="w-5 h-5 text-black"/>
@@ -173,33 +126,10 @@ const Navbar = () => {
                         {
                             token ? (
                                 <>
-                                    <img
-                                        onClick={handletoggle}
-                                        src={user?.profileImage || avater}
-                                        className="size-6 rounded-full cursor-pointer"
-                                    />
-                                    {Isdropdown && (
-                                        <div
-                                            className="absolute top-full right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50">
-                                            <ul className="py-2">
-                                                {DropdownMenu.map((item, index) => (
-                                                    <li key={index}>
-                                                        <Link
-                                                            to={item.path}
-                                                            className="block px-4 py-2 text-gray-700 hover:text-red-500 text-sm font-medium dropdown-items"
-                                                        >
-                                                            {item.label}
-                                                        </Link>
-                                                    </li>
-                                                ))}
-                                                <li>
-                                                    <Link onClick={handleLogout}
-                                                          className="block px-4 py-2 text-gray-700 hover:text-red-500 text-sm font-medium dropdown-items">Logout</Link>
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                                    )}
+                                    <Link to={user?.role === "admin" ? "/dashboard/admin" : "/dashboard/user"}>
+                                        <button className="font-semibold hover:text-red-500 transition">Dashboard</button>
+                                    </Link>
+                                    <button onClick={handleLogout} className="font-semibold hover:text-red-500 transition">Logout</button>
                                 </>
                             ) : (
                                 <Link to="/login">

@@ -31,7 +31,7 @@ const Dashboard = () => {
             {/* Toggle Button for Mobile */}
             <button
                 onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                className="md:hidden absolute top-4 left-6 z-50 bg-white p-2 rounded shadow"
+                className="md:hidden absolute top-4 right-6 z-50 bg-white p-2 rounded shadow"
             >
                 {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
