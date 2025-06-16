@@ -75,6 +75,7 @@ const UserInputform = ({ HandleModalclose, isModalOpen }) => {
         } finally {
             setUploading(false);
         }
+        HandleModalclose()
     };
 
     return (
