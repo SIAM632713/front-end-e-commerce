@@ -3,6 +3,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { useLogoutUserMutation } from "../redux/feature/auth/authAPI.js";
 import { logOutUser } from "../redux/feature/auth/authSlice.jsx";
+import {removeToken} from "../sessionHelper/sessionHelper.js";
 
 const AdminDashboard = () => {
 
@@ -13,8 +14,8 @@ const AdminDashboard = () => {
     const handleLogout = async () => {
         try {
             await logoutUser().unwrap();
-            alert("User logged out successfully");
             dispatch(logOutUser());
+            removeToken()
             navigate("/");
         } catch (err) {
             console.log(err);

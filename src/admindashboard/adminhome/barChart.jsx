@@ -1,7 +1,6 @@
 import React from 'react';
 import { useAdminstateQuery } from "../../redux/feature/State/stateAPI.js";
 import Loading from "../../component/loading/Loading.jsx";
-
 import { Pie } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -29,13 +28,13 @@ const BarChart = () => {
 
     const {
         totalOrders,
-        totalProducts ,
-        totalReviews ,
+        totalProducts,
+        totalReviews,
         totalUsers
     } = data || {};
 
     const chartData = {
-        labels: ['Total Orders', 'Total Products', 'Total Revenue', 'Total Users'],
+        labels: ['Total Orders', 'Total Products', 'Total Reviews', 'Total Users'],
         datasets: [
             {
                 label: 'Metrics',
@@ -52,8 +51,10 @@ const BarChart = () => {
     };
 
     return (
-        <div style={{ width: '400px', height: '400px' }}>
-            <Pie data={chartData} />
+        <div className="w-full max-w-[400px] sm:max-w-[400px] mx-auto">
+            <div className="aspect-square">
+                <Pie data={chartData} options={{ maintainAspectRatio: false }} />
+            </div>
         </div>
     );
 };

@@ -34,10 +34,8 @@ const Linechart = () => {
 
     // Initialize earnings array with 0 for all 12 months
     const earningsByMonth = new Array(12).fill(0);
-
-    // Fill in actual earnings from API data
     monthlyEarnings.forEach(entry => {
-        const monthIndex = entry.month - 1; // JS months are 0-based
+        const monthIndex = entry.month - 1;
         earningsByMonth[monthIndex] = entry.earnings;
     });
 
@@ -57,9 +55,16 @@ const Linechart = () => {
         ],
     };
 
+    const chartOptions = {
+        maintainAspectRatio: false,
+        responsive: true,
+    };
+
     return (
-        <div style={{ width: '500px', height: '400px' }}>
-            <Line data={chartData} />
+        <div className="w-full max-w-[500px] mx-auto">
+            <div className="aspect-[5/4]">
+                <Line data={chartData} options={chartOptions} />
+            </div>
         </div>
     );
 };
