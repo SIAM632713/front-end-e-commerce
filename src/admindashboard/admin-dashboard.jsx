@@ -1,50 +1,55 @@
 import React from 'react';
-import {Link, NavLink, useNavigate} from 'react-router-dom';
-import {useDispatch} from "react-redux";
-import {useLogoutUserMutation} from "../redux/feature/auth/authAPI.js";
-import {logOutUser} from "../redux/feature/auth/authSlice.jsx";
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useDispatch } from "react-redux";
+import { useLogoutUserMutation } from "../redux/feature/auth/authAPI.js";
+import { logOutUser } from "../redux/feature/auth/authSlice.jsx";
 
 const AdminDashboard = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [logoutUser]=useLogoutUserMutation()
+    const [logoutUser] = useLogoutUserMutation();
 
-    const handleLogout =async () => {
+    const handleLogout = async () => {
         try {
-            await logoutUser().unwrap()
+            await logoutUser().unwrap();
             alert("User logged out successfully");
             dispatch(logOutUser());
             navigate("/");
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
     };
 
     return (
-        <div className=" min-h-screen flex flex-col justify-between">
+        <div className="min-h-screen flex flex-col justify-between bg-white px-4 py-6 sm:px-6">
+            {/* Header */}
             <div>
-                <div className="p-4 border-b">
+                <div className="pb-4 border-b mb-4">
                     <Link to="/">
                         <h2 className="text-2xl font-bold">
                             <span className="text-black">Au</span>
                             <span className="text-gray-500">rellia.</span>
                         </h2>
                     </Link>
-                    <i className="text-sm text-gray-500">Admin dashboard</i>
+                    <p className="text-sm text-gray-500 mt-1">Admin dashboard</p>
                 </div>
-                <nav className="flex flex-col gap-4 p-4 font-semibold">
-                    <NavLink className={({isActive}) => isActive ? "text-[#ed3849]" : ""} to="/dashboard/admin">Dashboard</NavLink>
-                    <NavLink className={({isActive}) => isActive ? "text-[#ed3849]" : ""} to="/dashboard/add-product">Add Product</NavLink>
-                    <NavLink className={({isActive}) => isActive ? "text-[#ed3849]" : ""} to="/dashboard/manage-product">Manage Products</NavLink>
-                    <NavLink className={({isActive}) => isActive ? "text-[#ed3849]" : ""} to="/dashboard/user-manage">Users</NavLink>
-                    <NavLink className={({isActive}) => isActive ? "text-[#ed3849]" : ""} to="/dashboard/manage-order">Manage Orders</NavLink>
+
+                {/* Navigation Links */}
+                <nav className="flex flex-col gap-3 font-semibold text-sm sm:text-base">
+                    <NavLink className={({ isActive }) => isActive ? "text-[#ed3849]" : "text-gray-700 hover:text-black"} to="/dashboard/admin">Dashboard</NavLink>
+                    <NavLink className={({ isActive }) => isActive ? "text-[#ed3849]" : "text-gray-700 hover:text-black"} to="/dashboard/add-product">Add Product</NavLink>
+                    <NavLink className={({ isActive }) => isActive ? "text-[#ed3849]" : "text-gray-700 hover:text-black"} to="/dashboard/manage-product">Manage Products</NavLink>
+                    <NavLink className={({ isActive }) => isActive ? "text-[#ed3849]" : "text-gray-700 hover:text-black"} to="/dashboard/user-manage">Users</NavLink>
+                    <NavLink className={({ isActive }) => isActive ? "text-[#ed3849]" : "text-gray-700 hover:text-black"} to="/dashboard/manage-order">Manage Orders</NavLink>
                 </nav>
             </div>
-            <div className="p-4">
+
+            {/* Logout Button */}
+            <div className="pt-6 mt-6 border-t">
                 <button
                     onClick={handleLogout}
-                    className="bg-red-500 text-white px-4 py-2 w-full rounded hover:bg-red-600 transition cursor-pointer"
+                    className="bg-red-500 text-white w-full py-2 rounded hover:bg-red-600 transition duration-200 text-sm sm:text-base"
                 >
                     Logout
                 </button>

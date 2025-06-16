@@ -49,6 +49,7 @@ const UserHome = () => {
 
     const barChartOptions = {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
             legend: { display: false },
             title: {
@@ -87,29 +88,33 @@ const UserHome = () => {
     };
 
     return (
-        <div className="p-5">
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">User Dashboard</h1>
-            <p className="text-gray-600 mb-6">Hi, user! Wlcome to your dashboard.</p>
+        <div className="p-4 sm:p-6">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">User Dashboard</h1>
+            <p className="text-sm sm:text-base text-gray-600 mb-6">Hi, user! Welcome to your dashboard.</p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className="p-6 bg-white border border-gray-100 rounded-xl shadow-md hover:shadow-lg transition duration-300">
-                    <h2 className="text-lg font-semibold text-gray-700 mb-1">💰 Total Payments</h2>
-                    <p className="text-2xl font-bold text-blue-500">${totalPaymentamount}</p>
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="p-5 bg-white rounded-xl shadow-md hover:shadow-xl transition">
+                    <h2 className="text-base sm:text-lg font-semibold text-gray-700 mb-1">💰 Total Payments</h2>
+                    <p className="text-xl sm:text-2xl font-bold text-blue-500">${totalPaymentamount}</p>
                 </div>
 
-                <div className="p-6 bg-white border border-gray-100 rounded-xl shadow-md hover:shadow-lg transition duration-300">
-                    <h2 className="text-lg font-semibold text-gray-700 mb-1">⭐ Total Reviews</h2>
-                    <p className="text-2xl font-bold text-green-500">{totalReviews}</p>
+                <div className="p-5 bg-white  rounded-xl shadow-md hover:shadow-xl transition">
+                    <h2 className="text-base sm:text-lg font-semibold text-gray-700 mb-1">⭐ Total Reviews</h2>
+                    <p className="text-xl sm:text-2xl font-bold text-green-500">{totalReviews}</p>
                 </div>
 
-                <div className="p-6 bg-white border border-gray-100 rounded-xl shadow-md hover:shadow-lg transition duration-300">
-                    <h2 className="text-lg font-semibold text-gray-700 mb-1">🛒 Purchased Products</h2>
-                    <p className="text-2xl font-bold text-yellow-500">{totalpurchaseProducts}</p>
+                <div className="p-5 bg-white  rounded-xl shadow-md hover:shadow-xl transition">
+                    <h2 className="text-base sm:text-lg font-semibold text-gray-700 mb-1">🛒 Purchased Products</h2>
+                    <p className="text-xl sm:text-2xl font-bold text-yellow-500">{totalpurchaseProducts}</p>
                 </div>
             </div>
 
-            <div className="my-12 bg-white p-6 rounded-xl shadow-md">
-                <Bar data={barChartData} options={barChartOptions} />
+            {/* Chart */}
+            <div className="mt-10 bg-white p-4 sm:p-6 rounded-xl shadow overflow-x-auto">
+                <div className="w-full h-[300px] sm:h-[400px]">
+                    <Bar data={barChartData} options={barChartOptions} />
+                </div>
             </div>
         </div>
     );

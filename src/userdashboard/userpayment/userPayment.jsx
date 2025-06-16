@@ -26,23 +26,29 @@ const UserPayment = () => {
     const totalSpent = order.reduce((sum, item) => sum + item.amount, 0).toFixed(2);
 
     return (
-        <div>
-            <h2 className="text-lg font-bold">Total Payments</h2>
-            <div className="p-6 bg-white shadow-md rounded-md mt-5">
-                <p className="font-medium mt-3 mb-4">
-                    Total Spent: <span className="text-green-600">${totalSpent}</span>
+        <div className="px-4 sm:px-6 py-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-800">💳 Total Payments</h2>
+
+            <div className="p-4 sm:p-6 bg-white shadow-md rounded-md mt-4 sm:mt-6">
+                <p className="font-medium text-sm sm:text-base mb-4">
+                    Total Spent:
+                    <span className="text-green-600 ml-2 font-semibold">${totalSpent}</span>
                 </p>
-                <div className="space-y-4">
+
+                <div className="space-y-8">
                     {order.map((item, index) => (
-                        <div key={index} className="border-b border-gray-300 pb-4 space-y-2">
-                            <p className="font-semibold">Order #{index + 1}</p>
-                            <p className="text-md text-gray-600">Order id: ${item.orderID}</p>
-                            <p className="text-md text-gray-600">Price #: ${item.amount.toFixed(2)}</p>
-                            <p className="text-md text-gray-600">Date: {new Date(item.createdAt).toLocaleString()},
-                                Status :<span
-                                    className={`ml-2 px-2 py-1 text-sm rounded ${statusClasses[item.status]}`}>
-                  {item.status}
-                </span>
+                        <div
+                            key={index}
+                            className="border-b border-gray-200 pb-4"
+                        >
+                            <p className="text-sm sm:text-base font-semibold text-gray-700">📦 Order #{index + 1}</p>
+                            <p className="text-sm text-gray-600">🆔 Order ID: <span className="font-medium">{item.orderID}</span></p>
+                            <p className="text-sm text-gray-600">💵 Amount: <span className="font-medium">${item.amount.toFixed(2)}</span></p>
+                            <p className="text-sm text-gray-600 flex flex-wrap items-center gap-1">
+                                📅 Date: {new Date(item.createdAt).toLocaleString()}
+                                <span className={`ml-2 px-2 py-1 text-xs sm:text-sm rounded ${statusClasses[item.status]}`}>
+                                    {item.status}
+                                </span>
                             </p>
                         </div>
                     ))}
