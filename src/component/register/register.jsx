@@ -69,7 +69,7 @@ const Register = () => {
                         <button
                             type="submit"
                             className="w-full py-2 text-white bg-red-500 hover:bg-red-600 rounded-md cursor-pointer mt-2">
-                            Login
+                            Register
                         </button>
                     </form>
 

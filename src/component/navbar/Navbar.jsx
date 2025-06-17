@@ -105,38 +105,55 @@ const Navbar = () => {
             {isMenuOpen && (
                 <div className="lg:hidden px-4 pb-4">
                     <div className="flex flex-col gap-3 font-medium">
-                        <Link to="/home" onClick={() => setIsMenuOpen(false)}>Home</Link>
+                        <Link to="/" onClick={() => setIsMenuOpen(false)}>Home</Link>
                         <Link to="/shope" onClick={() => setIsMenuOpen(false)}>Shop</Link>
                         <Link to="/page" onClick={() => setIsMenuOpen(false)}>Page</Link>
                         <Link to="/contact" onClick={() => setIsMenuOpen(false)}>Contact</Link>
                     </div>
                     <div className="flex flex-col gap-4 mt-4">
-                        <Search className="cursor-pointer"/>
-                        <div className="relative cursor-pointer w-fit">
-                            <ShoppingBag onClick={handleCartOpen} className="w-5 h-5 text-black"/>
-                            {
-                                Products.length > 0 && (
+                        {/* Utility Icons */}
+                        <div className="flex items-center gap-4">
+                            <Search className="cursor-pointer"/>
+                            <div className="relative cursor-pointer w-fit">
+                                <ShoppingBag onClick={handleCartOpen} className="w-5 h-5 text-black"/>
+                                {Products.length > 0 && (
                                     <span
                                         className="absolute -top-2 -right-4 bg-red-500 text-white text-xs px-1 rounded-full">
-                        {Products.length}
-                    </span>
-                                )
-                            }
+                    {Products.length}
+                </span>
+                                )}
+                            </div>
                         </div>
-                        {
-                            token ? (
+
+                        {/* Auth Controls */}
+                        <div className="flex flex-col gap-2 mt-4">
+                            {token ? (
                                 <>
-                                    <Link to={user?.role === "admin" ? "/dashboard/admin" : "/dashboard/user"}>
-                                        <button className="font-semibold hover:text-red-500 transition">Dashboard</button>
+                                    <Link
+                                        to={user?.role === "admin" ? "/dashboard/admin" : "/dashboard/user"}
+                                        onClick={() => setIsMenuOpen(false)}
+                                        className="font-semibold hover:text-red-500 transition"
+                                    >
+                                        Dashboard
                                     </Link>
-                                    <button onClick={handleLogout} className="font-semibold hover:text-red-500 transition">Logout</button>
+                                    <button
+                                        onClick={() => {
+                                            handleLogout();
+                                            setIsMenuOpen(false);
+                                        }}
+                                        className="font-semibold hover:text-red-500 transition text-left"
+                                    >
+                                        Logout
+                                    </button>
                                 </>
                             ) : (
-                                <Link to="/login">
-                                    <User className="cursor-pointer w-5 h-5"/>
+                                <Link to="/login" onClick={() => setIsMenuOpen(false)}
+                                      className="flex items-center gap-2">
+                                    <User className="w-5 h-5"/>
+                                    <span className="font-semibold hover:text-red-500 transition">Login</span>
                                 </Link>
-                            )
-                        }
+                            )}
+                        </div>
                     </div>
                 </div>
             )}
