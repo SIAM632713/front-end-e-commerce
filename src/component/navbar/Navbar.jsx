@@ -117,7 +117,7 @@ const Navbar = () => {
                         </button>
                     </div>
 
-                    <div className="mt-6 flex flex-col gap-3 font-medium">
+                    <div className="mt-6 flex flex-col gap-4 font-medium">
                         <Link to="/" onClick={() => setIsMenuOpen(false)}>Home</Link>
                         <Link to="/shope" onClick={() => setIsMenuOpen(false)}>Shop</Link>
                         <Link to="/page" onClick={() => setIsMenuOpen(false)}>Page</Link>
@@ -140,7 +140,7 @@ const Navbar = () => {
                         </div>
 
                         {/* Auth */}
-                        <div className="flex flex-col gap-2 mt-4">
+                        <div className="flex flex-col gap-4 mt-2">
                             {token ? (
                                 <>
                                     <Link
