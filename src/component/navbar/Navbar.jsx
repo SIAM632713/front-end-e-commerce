@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {Link, NavLink, useNavigate} from 'react-router-dom';
-import { Search, ShoppingBag, User } from 'lucide-react';
+import { Search, ShoppingBag, User, Menu, X } from 'lucide-react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useLogoutUserMutation} from "../../redux/feature/auth/authAPI.js";
 import {logOutUser} from "../../redux/feature/auth/authSlice.jsx";
@@ -103,15 +103,29 @@ const Navbar = () => {
 
             {/* Mobile Dropdown Menu */}
             {isMenuOpen && (
-                <div className="lg:hidden px-4 pb-4">
-                    <div className="flex flex-col gap-3 font-medium">
+                <div
+                    className={`lg:hidden fixed top-0 right-0 h-full w-3/4 max-w-xs bg-white shadow-lg z-50 p-5 transition-transform duration-300 ease-in-out transform ${
+                        isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+                    }`}
+                >
+                    <div className="flex justify-end">
+                        <button
+                            onClick={() => setIsMenuOpen(false)}
+                            className="text-gray-600 hover:text-red-500"
+                        >
+                            <X className="w-6 h-6"/>
+                        </button>
+                    </div>
+
+                    <div className="mt-6 flex flex-col gap-3 font-medium">
                         <Link to="/" onClick={() => setIsMenuOpen(false)}>Home</Link>
                         <Link to="/shope" onClick={() => setIsMenuOpen(false)}>Shop</Link>
                         <Link to="/page" onClick={() => setIsMenuOpen(false)}>Page</Link>
                         <Link to="/contact" onClick={() => setIsMenuOpen(false)}>Contact</Link>
                     </div>
-                    <div className="flex flex-col gap-4 mt-4">
-                        {/* Utility Icons */}
+
+                    <div className="flex flex-col gap-4 mt-6">
+                        {/* Icons */}
                         <div className="flex items-center gap-4">
                             <Search className="cursor-pointer"/>
                             <div className="relative cursor-pointer w-fit">
@@ -119,13 +133,13 @@ const Navbar = () => {
                                 {Products.length > 0 && (
                                     <span
                                         className="absolute -top-2 -right-4 bg-red-500 text-white text-xs px-1 rounded-full">
-                    {Products.length}
-                </span>
+                        {Products.length}
+                    </span>
                                 )}
                             </div>
                         </div>
 
-                        {/* Auth Controls */}
+                        {/* Auth */}
                         <div className="flex flex-col gap-2 mt-4">
                             {token ? (
                                 <>
@@ -147,8 +161,11 @@ const Navbar = () => {
                                     </button>
                                 </>
                             ) : (
-                                <Link to="/login" onClick={() => setIsMenuOpen(false)}
-                                      className="flex items-center gap-2">
+                                <Link
+                                    to="/login"
+                                    onClick={() => setIsMenuOpen(false)}
+                                    className="flex items-center gap-2"
+                                >
                                     <User className="w-5 h-5"/>
                                     <span className="font-semibold hover:text-red-500 transition">Login</span>
                                 </Link>
@@ -157,7 +174,6 @@ const Navbar = () => {
                     </div>
                 </div>
             )}
-
             {
                 isCartOpen && <Cartmodal products={Products} isCartOpen={isCartOpen} handleCartClose={handleCartClose}/>
             }
