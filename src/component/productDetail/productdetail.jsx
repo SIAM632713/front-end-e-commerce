@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useParams } from "react-router-dom";
 import { useFetchProductbyIDQuery } from "../../redux/feature/Product/productAPI.js";
-import Loading from "../loading/Loading.jsx";
+import Loading from "../../Screenloading/Loading.jsx";
 import StarRatings from "react-star-ratings/build/star-ratings.js";
 import Productreview from "./Productreview.jsx";
 import { useDispatch } from "react-redux";

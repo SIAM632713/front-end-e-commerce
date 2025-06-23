@@ -1,7 +1,7 @@
 import React from 'react';
 import { useGetReviewByUserIdQuery } from "../../redux/feature/Reviews/ReviewAPI.js";
 import { useSelector } from "react-redux";
-import Loading from "../../component/loading/Loading.jsx";
+import Loading from "../../Screenloading/Loading.jsx";
 import { Link } from "react-router-dom";
 
 const UserReview = () => {

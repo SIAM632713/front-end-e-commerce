@@ -3,10 +3,10 @@ import axios from "axios";
 import { getBaseURL } from "../../utilis/getBaseURL.js";
 import { useAddProductMutation } from "../../redux/feature/Product/productAPI.js";
 import { useSelector } from "react-redux";
-import Loading from "../../component/loading/Loading.jsx";
+import ButtonLoader from "../../ButtonLoader/buttonLoader.jsx";
 
 const AddProducts = () => {
-    const [AddProduct, { error, isLoading }] = useAddProductMutation();
+    const [AddProduct, {isLoading }] = useAddProductMutation();
     const [uploading, setUploading] = useState(false);
     const { user } = useSelector((state) => state.auth);
     const fileInputRef = useRef(null);
@@ -16,43 +16,37 @@ const AddProducts = () => {
         Category: "",
         Color: "",
         Price: "",
-        Image: null,
+        imageFile: null,
         Description: "",
     });
 
-    const handleImageUpload = (file) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            setinputForm((prev) => ({
-                ...prev,
-                Image: reader.result,
-            }));
-        };
-        reader.readAsDataURL(file);
-    };
-
-    const HandleonChange = (e) => {
+    const handleOnChange = (e) => {
         const { name, value, files, type } = e.target;
         if (type === 'file') {
-            handleImageUpload(files[0]);
+            setinputForm(prev => ({ ...prev, imageFile: files[0] }));
         } else {
-            setinputForm({
-                ...inputForm,
-                [name]: value,
-            });
+            setinputForm(prev => ({ ...prev, [name]: value }));
         }
     };
 
     const HandleonSubmit = async (e) => {
         e.preventDefault();
-
+        setUploading(true);
         try {
-            setUploading(true);
-            const imageUploadResponse = await axios.post(`${getBaseURL()}/uploadImage`, {
-                image: inputForm.Image,
-            });
+            let imageUrl = "";
 
-            const imageUrl = imageUploadResponse.data;
+            if (inputForm.imageFile) {
+                const formData = new FormData();
+                formData.append("image", inputForm.imageFile);
+
+                const imageUploadResponse = await axios.post(`${getBaseURL()}/api/upload`, formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                });
+
+                imageUrl = imageUploadResponse.data.url;
+            }
 
             if (!inputForm.Productname || !inputForm.Category || !inputForm.Color || !inputForm.Price || !inputForm.Description) {
                 alert("Please fill in all required fields.");
@@ -76,7 +70,7 @@ const AddProducts = () => {
                 Category: "",
                 Color: "",
                 Price: "",
-                Image: null,
+                imageFile: null,
                 Description: "",
             });
             if (fileInputRef.current) {
@@ -89,13 +83,6 @@ const AddProducts = () => {
         }
     };
 
-    if (isLoading || uploading) {
-        return (
-            <div className="flex justify-center mt-10">
-                <Loading />
-            </div>
-        );
-    }
 
     return (
         <div className="bg-white p-4 sm:p-6 md:p-8 rounded-md">
@@ -106,7 +93,7 @@ const AddProducts = () => {
                     <label className="block text-sm font-medium mb-1">Product Name</label>
                     <input
                         value={inputForm.Productname}
-                        onChange={HandleonChange}
+                        onChange={handleOnChange}
                         name="Productname"
                         type="text"
                         placeholder="Ex: Diamond Earrings"
@@ -119,7 +106,7 @@ const AddProducts = () => {
                     <label className="block text-sm font-medium mb-1">Category</label>
                     <select
                         value={inputForm.Category}
-                        onChange={HandleonChange}
+                        onChange={handleOnChange}
                         name="Category"
                         className="w-full bg-gray-100 px-4 py-3 rounded-md text-gray-700 outline-none"
                     >
@@ -136,7 +123,7 @@ const AddProducts = () => {
                     <label className="block text-sm font-medium mb-1">Color</label>
                     <select
                         value={inputForm.Color}
-                        onChange={HandleonChange}
+                        onChange={handleOnChange}
                         name="Color"
                         className="w-full bg-gray-100 px-4 py-3 rounded-md text-gray-700 outline-none"
                     >
@@ -156,7 +143,7 @@ const AddProducts = () => {
                     <label className="block text-sm font-medium mb-1">Price</label>
                     <input
                         value={inputForm.Price}
-                        onChange={HandleonChange}
+                        onChange={handleOnChange}
                         name="Price"
                         type="number"
                         placeholder="0"
@@ -169,7 +156,7 @@ const AddProducts = () => {
                     <label className="block text-sm font-medium mb-1">Product Image</label>
                     <input
                         ref={fileInputRef}
-                        onChange={HandleonChange}
+                        onChange={handleOnChange}
                         type="file"
                         name="Image"
                         className="w-full bg-gray-100 px-4 py-2 rounded-md text-gray-700 outline-none"
@@ -181,7 +168,7 @@ const AddProducts = () => {
                     <label className="block text-sm font-medium mb-1">Description</label>
                     <textarea
                         value={inputForm.Description}
-                        onChange={HandleonChange}
+                        onChange={handleOnChange}
                         name="Description"
                         placeholder="Write a product description"
                         rows="4"
@@ -195,7 +182,9 @@ const AddProducts = () => {
                         type="submit"
                         className="bg-indigo-600 text-white font-medium px-6 py-2 rounded-md hover:bg-indigo-700 transition duration-200 w-full sm:w-auto"
                     >
-                        Add Product
+                        {
+                            isLoading || uploading ? <ButtonLoader/> : "Add Product"
+                        }
                     </button>
                 </div>
             </form>

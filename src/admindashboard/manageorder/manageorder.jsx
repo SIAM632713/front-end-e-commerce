@@ -3,7 +3,7 @@ import {
     useDeleteOrderByIDMutation,
     useGetAllOrderQuery
 } from "../../redux/feature/Order/orderAPI.js";
-import Loading from "../../component/loading/Loading.jsx";
+import Loading from "../../Screenloading/Loading.jsx";
 import Orderstatus from "./orderstatus.jsx";
 import { Link } from "react-router-dom";
 import {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { PanelLeftOpen } from 'lucide-react';
 import UserInputform from "./userInputform.jsx";
 import { useGetSingleProfileQuery } from "../../redux/feature/auth/authAPI.js";
-import Loading from "../../component/loading/Loading.jsx";
+import Loading from "../../Screenloading/Loading.jsx";
 import { useSelector } from "react-redux";
 
 const UserProfile = () => {

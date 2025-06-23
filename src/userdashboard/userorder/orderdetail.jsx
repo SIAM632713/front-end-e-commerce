@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from "react-router-dom";
 import { useGetOrderByIDQuery } from "../../redux/feature/Order/orderAPI.js";
-import Loading from "../../component/loading/Loading.jsx";
+import Loading from "../../Screenloading/Loading.jsx";
 import { Check, Edit2, Loader, Truck } from "lucide-react";
 
 const steps = [

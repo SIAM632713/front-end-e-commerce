@@ -1,5 +1,5 @@
 import React from 'react';
-import Shop from "../../component/shop/Shop.jsx";
+import Shop from "../component/shop/Shop.jsx";
 
 const Shope = () => {
     return (

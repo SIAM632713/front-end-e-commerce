@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useFetchAllProductsQuery } from "../../redux/feature/Product/productAPI.js";
 import StarRatings from "react-star-ratings/build/star-ratings.js";
-import Loading from "../loading/Loading.jsx";
+import Loading from "../../Screenloading/Loading.jsx";
 import {Meh, ShoppingCart, X} from "lucide-react";
 import ShopFiltering from "./shopFiltering.jsx";
 import { Link } from "react-router-dom";

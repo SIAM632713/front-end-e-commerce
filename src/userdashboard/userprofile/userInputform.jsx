@@ -4,7 +4,7 @@ import { useGetupdateProfileMutation } from "../../redux/feature/auth/authAPI.js
 import axios from "axios";
 import { getBaseURL } from "../../utilis/getBaseURL.js";
 import { useSelector } from "react-redux";
-import ButtonLoader from "./buttonLoader.jsx";
+import ButtonLoader from "../../ButtonLoader/buttonLoader.jsx";
 
 const UserInputform = ({ HandleModalclose, isModalOpen }) => {
     if (!isModalOpen) return null;
@@ -16,48 +16,44 @@ const UserInputform = ({ HandleModalclose, isModalOpen }) => {
 
     const [inputForm, setinputForm] = useState({
         Name: "",
-        Image: null,
+        imageFile: null,
         Bio: "",
         Profession: "",
     });
 
-    const handleImageUpload = (file) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            setinputForm((prev) => ({
-                ...prev,
-                Image: reader.result,
-            }));
-        };
-        reader.readAsDataURL(file);
-    };
-
-    const HandleonChange = (e) => {
+    const handleOnChange = (e) => {
         const { name, value, files, type } = e.target;
         if (type === 'file') {
-            handleImageUpload(files[0]);
+            setinputForm(prev => ({ ...prev, imageFile: files[0] }));
         } else {
-            setinputForm({
-                ...inputForm,
-                [name]: value,
-            });
+            setinputForm(prev => ({ ...prev, [name]: value }));
         }
     };
 
     const HandleonSubmit = async (e) => {
         e.preventDefault();
-        if (!inputForm.Name || !inputForm.Bio || !inputForm.Profession || !inputForm.Image) {
-            alert("Please fill in all required fields.");
-            return;
-        }
-
         setUploading(true);
-        try {
-            const imageUploadResponse = await axios.post(`${getBaseURL()}/uploadImage`, {
-                image: inputForm.Image,
-            });
 
-            const imageUrl = imageUploadResponse.data;
+        try {
+            let imageUrl = "";
+
+            if (inputForm.imageFile) {
+                const formData = new FormData();
+                formData.append("image", inputForm.imageFile);
+
+                const imageUploadResponse = await axios.post(`${getBaseURL()}/api/upload`, formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                });
+
+                imageUrl = imageUploadResponse.data.url;
+            }
+
+            if (!inputForm.Name || !inputForm.Bio || !inputForm.Profession || !inputForm.imageFile) {
+                alert("Please fill in all required fields.");
+                return;
+            }
 
             const userdata = {
                 username: inputForm.Name,
@@ -68,7 +64,12 @@ const UserInputform = ({ HandleModalclose, isModalOpen }) => {
 
             await GetupdateProfile({ id: user?._id, userdata }).unwrap();
             alert("Profile updated successfully.");
-            setinputForm({ Name: "", Image: null, Bio: "", Profession: "" });
+            setinputForm({
+                Name: "",
+                imageFile: null,
+                Bio: "",
+                Profession: ""
+            });
             if (fileInputRef.current) fileInputRef.current.value = null;
         } catch (err) {
             console.error('Error uploading image:', err);
@@ -93,7 +94,7 @@ const UserInputform = ({ HandleModalclose, isModalOpen }) => {
                         <label className="block text-sm font-medium mb-1">Username</label>
                         <input
                             value={inputForm.Name}
-                            onChange={HandleonChange}
+                            onChange={handleOnChange}
                             type="text"
                             name="Name"
                             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
@@ -102,7 +103,7 @@ const UserInputform = ({ HandleModalclose, isModalOpen }) => {
                     <div>
                         <label className="block text-sm font-medium mb-1">Profile Image</label>
                         <input
-                            onChange={HandleonChange}
+                            onChange={handleOnChange}
                             ref={fileInputRef}
                             type="file"
                             name="Image"
@@ -113,7 +114,7 @@ const UserInputform = ({ HandleModalclose, isModalOpen }) => {
                         <label className="block text-sm font-medium mb-1">Bio</label>
                         <textarea
                             value={inputForm.Bio}
-                            onChange={HandleonChange}
+                            onChange={handleOnChange}
                             name="Bio"
                             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
                         />
@@ -122,7 +123,7 @@ const UserInputform = ({ HandleModalclose, isModalOpen }) => {
                         <label className="block text-sm font-medium mb-1">Profession</label>
                         <input
                             value={inputForm.Profession}
-                            onChange={HandleonChange}
+                            onChange={handleOnChange}
                             type="text"
                             name="Profession"
                             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
@@ -131,13 +132,8 @@ const UserInputform = ({ HandleModalclose, isModalOpen }) => {
                     <button
                         type="submit"
                         disabled={isLoading || uploading}
-                        className={`w-full py-2 rounded-md text-white flex justify-center items-center ${
-                            isLoading || uploading
-                                ? "bg-blue-400 cursor-not-allowed"
-                                : "bg-blue-600 hover:bg-blue-700"
-                        }`}
-                    >
-                        {isLoading || uploading ? <ButtonLoader text="Saving..." /> : "Save Changes"}
+                        className="w-full py-2 rounded-md text-white flex justify-center items-center bg-blue-600 hover:bg-blue-700">
+                        {isLoading || uploading ? <ButtonLoader/> : "Save Changes"}
                     </button>
                 </form>
             </div>

@@ -4,7 +4,7 @@ import { ShoppingCart } from 'lucide-react';
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/feature/Cart/cartSlice.js";
 import { useAllProductsQuery } from "../../redux/feature/Product/productAPI.js";
-import Loading from "../loading/Loading.jsx";
+import Loading from "../../Screenloading/Loading.jsx";
 import { Link } from "react-router-dom";
 import {getToken} from "../../sessionHelper/sessionHelper.js";
 import toast from "react-hot-toast";

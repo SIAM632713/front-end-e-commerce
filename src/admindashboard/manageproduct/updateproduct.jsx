@@ -4,9 +4,9 @@ import {
     useUpdateProductMutation,
 } from "../../redux/feature/Product/productAPI.js";
 import { useParams } from "react-router-dom";
-import Loading from "../../component/loading/Loading.jsx";
 import axios from "axios";
 import { getBaseURL } from "../../utilis/getBaseURL.js";
+import ButtonLoader from "../../ButtonLoader/buttonLoader.jsx";
 
 const Updateproduct = () => {
     const { id } = useParams();
@@ -19,7 +19,7 @@ const Updateproduct = () => {
         category: "",
         color: "",
         price: "",
-        image: null,
+        imageFile: null,
         description: "",
     });
 
@@ -33,33 +33,18 @@ const Updateproduct = () => {
                 category: category || "",
                 color: color || "",
                 price: price || 0,
-                image: image || null,
+                imageFile: image || null,
                 description: description || "",
             });
         }
     }, [productData]);
 
-    const handleImageUpload = (file) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            setinputdata((prev) => ({
-                ...prev,
-                image: reader.result,
-            }));
-        };
-        reader.readAsDataURL(file);
-    };
-
-    const HandleonChange = (e) => {
+    const handleOnChange = (e) => {
         const { name, value, files, type } = e.target;
-
-        if (type === "file") {
-            handleImageUpload(files[0]);
+        if (type === 'file') {
+            setinputdata(prev => ({ ...prev, imageFile: files[0] }));
         } else {
-            setinputdata({
-                ...inputdata,
-                [name]: value,
-            });
+            setinputdata(prev => ({ ...prev, [name]: value }));
         }
     };
 
@@ -67,11 +52,20 @@ const Updateproduct = () => {
         e.preventDefault();
         setUploading(true);
         try {
-            const imageUploadResponse = await axios.post(`${getBaseURL()}/uploadImage`, {
-                image: inputdata.image,
-            });
+            let imageUrl = "";
 
-            const imageUrl = imageUploadResponse.data;
+            if (inputdata.imageFile) {
+                const formData = new FormData();
+                formData.append("image", inputdata.imageFile);
+
+                const imageUploadResponse = await axios.post(`${getBaseURL()}/api/upload`, formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                });
+
+                imageUrl = imageUploadResponse.data.url;
+            }
 
             const newdata = {
                 name: inputdata.name,
@@ -100,13 +94,13 @@ const Updateproduct = () => {
         }
     };
 
-    if (isLoading || uploading) {
-        return (
-            <div className="flex justify-center mt-10">
-                <Loading />
-            </div>
-        );
-    }
+    // if (isLoading || uploading) {
+    //     return (
+    //         <div className="flex justify-center mt-10">
+    //             <Loading />
+    //         </div>
+    //     );
+    // }
 
     return (
         <div className="bg-white rounded-md p-4 sm:p-6">
@@ -116,7 +110,7 @@ const Updateproduct = () => {
                     <label className="block text-sm font-medium mb-1">Product Name</label>
                     <input
                         value={inputdata.name}
-                        onChange={HandleonChange}
+                        onChange={handleOnChange}
                         name="name"
                         type="text"
                         placeholder="Ex: Diamond Earrings"
@@ -128,7 +122,7 @@ const Updateproduct = () => {
                     <label className="block text-sm font-medium mb-1">Category</label>
                     <select
                         value={inputdata.category}
-                        onChange={HandleonChange}
+                        onChange={handleOnChange}
                         name="category"
                         className="w-full bg-gray-100 px-4 py-2 rounded-md text-gray-700 outline-none"
                     >
@@ -144,7 +138,7 @@ const Updateproduct = () => {
                     <label className="block text-sm font-medium mb-1">Color</label>
                     <select
                         value={inputdata.color}
-                        onChange={HandleonChange}
+                        onChange={handleOnChange}
                         name="color"
                         className="w-full bg-gray-100 px-4 py-2 rounded-md text-gray-700 outline-none"
                     >
@@ -163,7 +157,7 @@ const Updateproduct = () => {
                     <label className="block text-sm font-medium mb-1">Price</label>
                     <input
                         value={inputdata.price}
-                        onChange={HandleonChange}
+                        onChange={handleOnChange}
                         name="price"
                         type="number"
                         min={0}
@@ -174,7 +168,7 @@ const Updateproduct = () => {
                 <div>
                     <label className="block text-sm font-medium mb-1">Image</label>
                     <input
-                        onChange={HandleonChange}
+                        onChange={handleOnChange}
                         type="file"
                         name="image"
                         className="w-full bg-gray-100 px-4 py-2 rounded-md text-gray-700 outline-none"
@@ -185,7 +179,7 @@ const Updateproduct = () => {
                     <label className="block text-sm font-medium mb-1">Description</label>
                     <textarea
                         value={inputdata.description}
-                        onChange={HandleonChange}
+                        onChange={handleOnChange}
                         name="description"
                         placeholder="Write a product description"
                         rows="4"
@@ -198,7 +192,9 @@ const Updateproduct = () => {
                         type="submit"
                         className="bg-indigo-600 text-white font-medium px-6 py-2 rounded-md hover:bg-indigo-700 transition-all duration-200"
                     >
-                        Update Product
+                        {
+                            isLoading || uploading ? <ButtonLoader/> : "Update Product"
+                        }
                     </button>
                 </div>
             </form>

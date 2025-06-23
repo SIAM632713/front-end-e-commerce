@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { Edit2, Loader, Truck, Check } from 'lucide-react';
 import axios from "axios";
 import {getBaseURL} from "../../utilis/getBaseURL.js";
-import Loading from "../loading/Loading.jsx";
+import Loading from "../../Screenloading/Loading.jsx";
 
 const steps = [
     {

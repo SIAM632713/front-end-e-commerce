@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from "react-redux";
 import { useUserstateQuery } from "../../redux/feature/State/stateAPI.js";
-import Loading from "../../component/loading/Loading.jsx";
+import Loading from "../../Screenloading/Loading.jsx";
 import {
     Chart as ChartJS,
     CategoryScale,

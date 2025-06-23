@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAllProductsQuery, useDeleteProductMutation } from "../../redux/feature/Product/productAPI.js";
-import Loading from "../../component/loading/Loading.jsx";
+import Loading from "../../Screenloading/Loading.jsx";
 import { Link } from "react-router-dom";
 import { confirmDelete, showError, showSuccess } from "../../utilis/sweetAlertHelper.js";
 

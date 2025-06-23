@@ -1,5 +1,5 @@
 import React from 'react';
-import Patmentsuccess from "../../component/Paymentsuccess/Patmentsuccess.jsx";
+import Patmentsuccess from "../component/Paymentsuccess/Patmentsuccess.jsx";
 
 const PaymentsuccessPage = () => {
     return (

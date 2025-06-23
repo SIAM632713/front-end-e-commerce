@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useGetOrderByEmailQuery } from '../../redux/feature/Order/orderAPI.js';
-import Loading from '../../component/loading/Loading.jsx';
+import Loading from '../../Screenloading/Loading.jsx';
 
 const statusClasses = {
     pending: 'bg-red-100 text-red-600',

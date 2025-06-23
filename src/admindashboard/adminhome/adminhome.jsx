@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAdminstateQuery } from "../../redux/feature/State/stateAPI.js";
-import Loading from "../../component/loading/Loading.jsx";
+import Loading from "../../Screenloading/Loading.jsx";
 import { DollarSign, ShoppingCart, Users, Boxes } from 'lucide-react';
 import BarChart from "./barChart.jsx";
 import Linechart from "./linechart.jsx";

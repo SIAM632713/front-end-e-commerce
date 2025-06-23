@@ -3,7 +3,7 @@ import {
     useGetDeleteUserMutation,
     useGetUserQuery
 } from "../../redux/feature/auth/authAPI.js";
-import Loading from "../../component/loading/Loading.jsx";
+import Loading from "../../Screenloading/Loading.jsx";
 import { Pencil, Trash2 } from 'lucide-react';
 import UserInputstatus from "./UserInputstatus.jsx";
 import { useSelector } from "react-redux";

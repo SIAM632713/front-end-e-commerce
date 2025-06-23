@@ -3,7 +3,7 @@ import {Link, useParams} from 'react-router-dom';
 import {useFetchProductCategoriesQuery} from "../../redux/feature/Product/productAPI.js";
 import {ShoppingCart} from "lucide-react";
 import StarRatings from "react-star-ratings/build/star-ratings.js";
-import Loading from "../loading/Loading.jsx";
+import Loading from "../../Screenloading/Loading.jsx";
 import {useDispatch} from "react-redux";
 import {addToCart} from "../../redux/feature/Cart/cartSlice.js";
 import {getToken} from "../../sessionHelper/sessionHelper.js";
