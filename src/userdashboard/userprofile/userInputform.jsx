@@ -106,7 +106,7 @@ const UserInputform = ({ HandleModalclose, isModalOpen }) => {
                             onChange={handleOnChange}
                             ref={fileInputRef}
                             type="file"
-                            name="Image"
+                            name="imageFile"
                             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-200"
                         />
                     </div>
