@@ -12,8 +12,9 @@ const productAPI=createApi({
 
     endpoints:(builder)=>({
         fetchAllProducts:builder.query({
-            query:({category,color,minPrice,maxPrice,page=1,limit=10})=>{
+            query:({category,color,keyword,minPrice,maxPrice,page=1,limit=10})=>{
                 const queryParams=new URLSearchParams({
+                    keyword:keyword || '',
                     category:category || '',
                     color:color || '',
                     minPrice:minPrice || 0,

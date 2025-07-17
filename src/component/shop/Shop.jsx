@@ -4,7 +4,7 @@ import StarRatings from "react-star-ratings/build/star-ratings.js";
 import Loading from "../../Screenloading/Loading.jsx";
 import {Meh, ShoppingCart, X} from "lucide-react";
 import ShopFiltering from "./shopFiltering.jsx";
-import { Link } from "react-router-dom";
+import {Link, useSearchParams} from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/feature/Cart/cartSlice.js";
 import { getToken } from "../../sessionHelper/sessionHelper.js";
@@ -12,6 +12,8 @@ import toast from "react-hot-toast";
 
 const Shop = () => {
     const dispatch = useDispatch();
+    const [searchParams] = useSearchParams();
+    const keyword = searchParams.get("keyword") || "";
 
     const HandleaddToCart = (product) => {
         if (!getToken()) {
@@ -33,6 +35,7 @@ const Shop = () => {
     const [minPrice, maxPrice] = priceRange.split('-').map(Number);
 
     const { data: Productdata = {}, isLoading, error } = useFetchAllProductsQuery({
+        keyword,
         category: category !== 'all' ? category : '',
         color: color !== 'all' ? color : '',
         minPrice: isNaN(minPrice) ? '' : minPrice,
@@ -51,7 +54,7 @@ const Shop = () => {
     const totalProducts = productData.length;
 
     const [currentPage, setCurrentPage] = useState(1);
-    const ProductperPage = 4;
+    const ProductperPage = 8;
 
     const indexOfLastProduct = currentPage * ProductperPage;
     const indexOfFirstProduct = indexOfLastProduct - ProductperPage;

@@ -10,10 +10,17 @@ import {getToken, removeToken} from "../../sessionHelper/sessionHelper.js";
 const Navbar = () => {
     const Products=useSelector((state) => state.cart.products)
 
+    const [keyword,setkeyword]=useState('');
+    const Handlesearch=()=>{
+        if(keyword.trim()){
+            navigate(`/shope?keyword=${encodeURIComponent(keyword)}`)
+            setkeyword("")
+        }
+    }
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { user } = useSelector((state) => state.auth);
     const token=getToken();
-
 
     const [isCartOpen, setIsCartOpen] = useState(false);
     const handleCartOpen = () => {
@@ -55,7 +62,16 @@ const Navbar = () => {
 
                 {/* Icons */}
                 <div className="hidden lg:flex items-center gap-7 relative">
-                    <Search className="cursor-pointer w-5 h-5"/>
+                    <div className="relative">
+                        <input
+                            value={keyword}
+                            onChange={(e)=>setkeyword(e.target.value)}
+                            type="text"
+                            placeholder="Search..."
+                            className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring focus:ring-red-200"
+                        />
+                        <Search onClick={Handlesearch} className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4"/>
+                    </div>
                     <div className="relative cursor-pointer w-fit">
                         <ShoppingBag onClick={handleCartOpen} className="w-5 h-5 text-black"/>
                         {
@@ -72,7 +88,9 @@ const Navbar = () => {
                                 <Link to={user?.role === "admin" ? "/dashboard/admin" : "/dashboard/user"}>
                                     <button className="font-semibold transition cursor-pointer">Dashboard</button>
                                 </Link>
-                                <button onClick={handleLogout} className="font-semibold transition cursor-pointer">Logout</button>
+                                <button onClick={handleLogout}
+                                        className="font-semibold transition cursor-pointer">Logout
+                                </button>
                             </>
                         ) : (
                             <Link to="/login">
@@ -127,7 +145,17 @@ const Navbar = () => {
                     <div className="flex flex-col gap-4 mt-6">
                         {/* Icons */}
                         <div className="flex items-center gap-4">
-                            <Search className="cursor-pointer"/>
+                            <div className="relative">
+                                <input
+                                    value={keyword}
+                                    onChange={(e) => setkeyword(e.target.value)}
+                                    type="text"
+                                    placeholder="Search..."
+                                    className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring focus:ring-red-200"
+                                />
+                                <Search onClick={Handlesearch}
+                                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4"/>
+                            </div>
                             <div className="relative cursor-pointer w-fit">
                                 <ShoppingBag onClick={handleCartOpen} className="w-5 h-5 text-black"/>
                                 {Products.length > 0 && (
